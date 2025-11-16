@@ -10,8 +10,8 @@ import Link from "next/link";
 
 const page = () => {
 
-  const [mobailNavber, setMobailNavber] = useState(true)
-  const [isClosing, setIsClosing] = useState(true)
+  const [mobailNavber, setMobailNavber] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
 
   const styles = `
     @keyframes slideInFromLeft {
@@ -118,7 +118,7 @@ const page = () => {
       {/* mobail manuber */}
       {
         mobailNavber && 
-        <div className={`absolute left-0 top-0 w-full h-screen pr-6 bg-[#00000083] navbar-overlay ${isClosing ? '' : 'hide'}`}>
+        <div className={`absolute left-0 top-0 w-full h-screen pr-6 bg-[#00000083] navbar-overlay ${isClosing ? 'hide' : ''}`}>
 
         <div onClick={hendelNavberButtonHide} className=" text-[35px] text-white absolute right-1 top-5">
           <RxCross2 />
