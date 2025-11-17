@@ -1,13 +1,14 @@
 ﻿"use client";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import { FaBalanceScaleLeft, FaBars, FaPhoneVolume, FaRegHeart } from "react-icons/fa";
+import { FaBalanceScaleLeft, FaBars, FaPhoneVolume, FaRegHeart, FaTshirt, FaHeartbeat, FaGift, FaGamepad, FaCamera, FaAngleRight } from "react-icons/fa";
+import { GiWoodenChair, GiCookingPot, GiDiamonds } from "react-icons/gi";
 import Logo from "../../../public/photos/logo.png";
 import { IoBag, IoBagHandleOutline, IoSearchOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { IoIosSearch, IoMdPricetag } from "react-icons/io";
 import Link from "next/link";
-import { MdKeyboardArrowDown, MdOutlineMyLocation } from "react-icons/md";
+import { MdKeyboardArrowDown, MdOutlineMyLocation, MdHomeFilled, MdDevices, MdPhoneIphone } from "react-icons/md";
 import { CiUser } from "react-icons/ci";
 import { TbCategoryPlus } from "react-icons/tb";
 
@@ -16,6 +17,22 @@ const Navbar = () => {
   const [isClosing, setIsClosing] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<Set<string>>(new Set());
   const [activeButton, setActiveButton] = useState<"main" | "categories">("main");
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+
+  const categories = [
+    { name: "Fashion", icon: FaTshirt },
+    { name: "Home & Garden", icon: MdHomeFilled },
+    { name: "Electronics", icon: MdDevices },
+    { name: "Furniture", icon: GiWoodenChair },
+    { name: "Healthy & Beauty", icon: FaHeartbeat },
+    { name: "Gift Ideas", icon: FaGift },
+    { name: "Toy & Games", icon: FaGamepad },
+    { name: "Cooking", icon: GiCookingPot },
+    { name: "Smart Phones", icon: MdPhoneIphone },
+    { name: "Cameras & Photo", icon: FaCamera },
+    { name: "Accessories", icon: GiDiamonds },
+    { name: "View All Categories", icon: FaAngleRight },
+  ];
 
   useEffect(() => {
     if (mobileNavbar) {
@@ -49,11 +66,24 @@ const Navbar = () => {
         opacity: 0;
       }
     }
+    @keyframes slideDownCategory {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
     .navbar-overlay {
       animation: slideInFromLeft 0.4s ease-out forwards;
     }
     .navbar-overlay.hide {
       animation: slideOutToLeft 0.4s ease-in forwards;
+    }
+    .category-dropdown {
+      animation: slideDownCategory 0.3s linear forwards;
     }
   `;
 
@@ -227,7 +257,36 @@ const Navbar = () => {
           <div className="hidden md:flex items-center justify-between border-t border-gray-200 py-4 text-sm">
             
             <div className="flex gap-6">
-              <Link href="#" className="hover:text-blue-600 transition  flex items-center gap-2"> <TbCategoryPlus/> Browse Categories</Link>
+              <div 
+                className="relative group"
+                onMouseEnter={() => setShowCategoryDropdown(true)}
+                onMouseLeave={() => setShowCategoryDropdown(false)}
+              >
+                <Link href="#" className="hover:text-blue-600 transition flex items-center gap-2">
+                  <TbCategoryPlus /> Browse Categories
+                </Link>
+
+                {/* Dropdown Menu */}
+                {showCategoryDropdown && (
+                  <div className="category-dropdown absolute left-0 top-full mt-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-max">
+                    <div className="grid grid-cols-1 gap-0">
+                      {categories.map((category, index) => {
+                        const IconComponent = category.icon;
+                        return (
+                          <Link
+                            key={index}
+                            href="#"
+                            className="px-6 py-3 flex items-center gap-3 hover:bg-blue-50 hover:text-blue-600 transition-colors border-b border-gray-100 last:border-b-0"
+                          >
+                            <IconComponent className="text-lg" />
+                            <span>{category.name}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
 
               <Link href="#" className="hover:text-blue-600 transition">Home</Link>
               <Link href="#" className="hover:text-blue-600 transition">Shop</Link>
