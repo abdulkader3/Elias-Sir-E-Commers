@@ -1,34 +1,32 @@
-'use client'
+﻿"use client";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import { FaBars } from "react-icons/fa";
-import Logo from '../../../public/photos/logo.png'
-import { IoBagHandleOutline } from "react-icons/io5";
+import { FaBalanceScaleLeft, FaBars, FaPhoneVolume, FaRegHeart } from "react-icons/fa";
+import Logo from "../../../public/photos/logo.png";
+import { IoBag, IoBagHandleOutline, IoSearchOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
-import { IoIosSearch } from "react-icons/io";
+import { IoIosSearch, IoMdPricetag } from "react-icons/io";
 import Link from "next/link";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowDown, MdOutlineMyLocation } from "react-icons/md";
 import { CiUser } from "react-icons/ci";
+import { TbCategoryPlus } from "react-icons/tb";
 
-const page = () => {
+const Navbar = () => {
+  const [mobileNavbar, setMobileNavbar] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const [expandedMenus, setExpandedMenus] = useState<Set<string>>(new Set());
+  const [activeButton, setActiveButton] = useState<"main" | "categories">("main");
 
-  const [mobailNavber, setMobailNavber] = useState(false)
-  const [isClosing, setIsClosing] = useState(false)
-  const [expandedMenus, setExpandedMenus] = useState<Set<string>>(new Set())
-  const [activeButton, setActiveButton] = useState<'main' | 'categories'>('main')
-
-  // Prevent body scroll when mobile navbar is open
   useEffect(() => {
-    if (mobailNavber) {
-      document.body.style.overflow = 'hidden'
+    if (mobileNavbar) {
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = "unset";
     }
-
     return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [mobailNavber])
+      document.body.style.overflow = "unset";
+    };
+  }, [mobileNavbar]);
 
   const styles = `
     @keyframes slideInFromLeft {
@@ -41,7 +39,6 @@ const page = () => {
         opacity: 1;
       }
     }
-
     @keyframes slideOutToLeft {
       from {
         transform: translateX(0);
@@ -52,325 +49,210 @@ const page = () => {
         opacity: 0;
       }
     }
-
     .navbar-overlay {
       animation: slideInFromLeft 0.4s ease-out forwards;
     }
-
     .navbar-overlay.hide {
       animation: slideOutToLeft 0.4s ease-in forwards;
     }
-  `
+  `;
 
-  const hendelNavberButton = ()=>{
-    setMobailNavber(true)
-    setIsClosing(false)
-  }
-  const hendelNavberButtonHide = ()=>{
-    setIsClosing(true)
+  const handleNavbarButton = () => {
+    setMobileNavbar(true);
+    setIsClosing(false);
+  };
+
+  const handleNavbarButtonHide = () => {
+    setIsClosing(true);
     setTimeout(() => {
-      setMobailNavber(false)
-      setIsClosing(false)
-    }, 400)
-  }
+      setMobileNavbar(false);
+      setIsClosing(false);
+    }, 400);
+  };
 
   const toggleMenu = (menuName: string) => {
-    const newMenus = new Set(expandedMenus)
+    const newMenus = new Set(expandedMenus);
     if (newMenus.has(menuName)) {
-      newMenus.delete(menuName)
+      newMenus.delete(menuName);
     } else {
-      newMenus.add(menuName)
+      newMenus.add(menuName);
     }
-    setExpandedMenus(newMenus)
-  }
+    setExpandedMenus(newMenus);
+  };
 
   return (
     <>
-    <style>{styles}</style>
+      <style>{styles}</style>
 
-    {/* headers */}
-      <div className=" container w-full h-[50px] bg-[#f5f6f8] text-[12px] flex justify-between items-center text-xl ">
-
-        <p></p> 
-        {/* welcome messge for leter */}
-
-
-
-        <div className="flex gap-2 ">
-
-          <select
-          id="Currency"
-          name="Currency"
-          className=" focus:outline-none">
-
-          <option value="USD" className=" text-black">
-            USD
-          </option>
-          <option value="EUR" className=" text-black">
-            EUR
-          </option>
-          <option value="BDT" className=" text-black">
-            BDT
-          </option>
-
-        </select>
-        
-        <select
-          id="Language"
-          name="Language"
-          className=" focus:outline-none">
-
-          <option value="E" className=" text-black">
-            English
-          </option>
-          <option value="EUR" className=" text-black">
-            EUR
-          </option>
-          <option value="BDT" className=" text-black">
-            BDT
-          </option>
-
-        </select>
-
-
-        <div className=" hidden md:flex items-center gap-2 ">
-
-          <div className="w-[2px] h-[20px] bg-[#2d2d2d92] "></div>
-
-        <div className="flex gap-5 ">
-
-          <div className="blog">
-          <Link href={"#"}> Blog </Link>
-        </div>
-
-        <div className="content">
-          <Link href={"#"}> Content </Link>
-        </div>
-
-        <div className="account">
-          <Link href={"#"}> My Account </Link>
-        </div>
-
-        <div className="user flex items-center gap-1 ">
-          <div className=" text-[17px] "><CiUser/></div>
-          <Link href={"#"}> Sing In </Link>
-          /
-          <Link href={"#"}> Register </Link>
-        </div>
-
-        </div>
-        </div>
-
-
-
-
-        </div>
-
-
-
-      </div>
-    {/* headers */}
-
-    {/* Main Nabver */}
-    <div className=" container w-full py-[32px] flex items-center justify-between  ">
-
-      {/* Icon manuber */}
-      <div onClick={hendelNavberButton} className="manubarIcon ">
-        <FaBars/>
-      </div>
-
-      {/* mobail manuber */}
-      {
-        mobailNavber && 
-        <div className={`absolute left-0 top-0 w-full h-full pr-6 bg-[#00000083] navbar-overlay ${isClosing ? 'hide' : ''}`}>
-
-        <div onClick={hendelNavberButtonHide} className=" text-[35px] text-white absolute right-1 top-5">
-          <RxCross2 />
-        </div>
-
-        <div className="w-full h-full bg-[#202020] p-5 flex flex-col">
-
-          {/* Search Bar */}
-          <div className="w-full h-10 relative mb-5">
-            <input className="p-5 w-full h-full border border-white bg-[#dadada] rounded-full outline-none focus:outline-none" type="search" placeholder="Search" />
-            <div className="absolute top-2 right-5 text-2xl"><IoIosSearch/></div>
+      {/* Top Header */}
+      <div className="bg-gray-100 border-b border-gray-200 text-xs">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex justify-between items-center">
+            <div></div>
+            <div className="flex gap-6 items-center">
+              <select id="Currency" name="Currency" className="focus:outline-none bg-transparent">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="BDT">BDT</option>
+              </select>
+              <select id="Language" name="Language" className="focus:outline-none bg-transparent">
+                <option value="E">English</option>
+                <option value="F">Français</option>
+                <option value="D">Deutsch</option>
+              </select>
+              <div className="hidden md:flex items-center gap-6 text-gray-700">
+                <div className="w-px h-4 bg-gray-300"></div>
+                <Link href="#" className="hover:text-blue-600">Blog</Link>
+                <Link href="#" className="hover:text-blue-600">Content</Link>
+                <Link href="#" className="hover:text-blue-600">My Account</Link>
+                <div className="flex items-center gap-1">
+                  <CiUser className="text-lg" />
+                  <Link href="#" className="hover:text-blue-600">Sign In</Link>/
+                  <Link href="#" className="hover:text-blue-600">Register</Link>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
 
-          {/* Tab Buttons */}
-          <div className="flex gap-0 mb-4">
-            <button 
-              onClick={() => setActiveButton('main')} 
-              className={`flex-1 py-2 text-lg font-medium transition-colors ${activeButton === 'main' ? 'text-[#336699]' : 'text-white'}`}
-            >
-              Main Menu
+      {/* Main Navbar */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Mobile Navbar */}
+          <div className="md:hidden flex items-center justify-between py-4">
+            <button onClick={handleNavbarButton} className="text-2xl">
+              <FaBars />
             </button>
-            <button 
-              onClick={() => setActiveButton('categories')} 
-              className={`flex-1 py-2 text-lg font-medium transition-colors ${activeButton === 'categories' ? 'text-[#336699]' : 'text-white'}`}
-            >
-              Categories
-            </button>
+
+            {mobileNavbar && (
+              <div className={`fixed inset-0 z-50 bg-black bg-opacity-50 navbar-overlay ${isClosing ? "hide" : ""}`}>
+                <div className="fixed left-0 top-0 h-full w-4/5 bg-gray-900 text-white flex flex-col p-5">
+                  <button onClick={handleNavbarButtonHide} className="text-3xl text-white self-end mb-4">
+                    <RxCross2 />
+                  </button>
+
+                  {/* Search Bar */}
+                  <div className="mb-5 relative">
+                    <input className="w-full px-4 py-2 rounded-full bg-gray-300 border-0 focus:outline-none" type="search" placeholder="Search" />
+                    <IoIosSearch className="absolute right-4 top-2 text-2xl text-gray-600" />
+                  </div>
+
+                  {/* Tab Buttons */}
+                  <div className="flex gap-0 mb-4 border-b border-gray-700">
+                    <button onClick={() => setActiveButton("main")} className={`flex-1 py-2 font-medium ${activeButton === "main" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-400"}`}>
+                      Main Menu
+                    </button>
+                    <button onClick={() => setActiveButton("categories")} className={`flex-1 py-2 font-medium ${activeButton === "categories" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-400"}`}>
+                      Categories
+                    </button>
+                  </div>
+
+                  {/* Menu Items */}
+                  <div className="flex-1 overflow-y-auto">
+                    <ul className="space-y-0">
+                      <li className="border-b border-gray-700">
+                        <Link href="/" className="block py-3 hover:text-blue-400">Home</Link>
+                      </li>
+                      {["Shop", "Vendor", "Blog", "Pages", "Elements"].map((menu) => (
+                        <li key={menu} className="border-b border-gray-700">
+                          <button onClick={() => toggleMenu(menu.toLowerCase())} className="w-full flex items-center justify-between py-3 hover:text-blue-400">
+                            <span>{menu}</span>
+                            <MdKeyboardArrowDown className={`transition-transform ${expandedMenus.has(menu.toLowerCase()) ? "rotate-180" : ""}`} />
+                          </button>
+                          {expandedMenus.has(menu.toLowerCase()) && (
+                            <ul className="pl-4 space-y-2 text-gray-400 pb-2">
+                              <li><Link href="#" className="hover:text-blue-400 block">{menu} Page</Link></li>
+                              <li><Link href="#" className="hover:text-blue-400 block">{menu} Layouts</Link></li>
+                              <li><Link href="#" className="hover:text-blue-400 block">{menu} Items</Link></li>
+                            </ul>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <Image src={Logo} alt="Logo" width={144} height={50} />
+            <button className="text-2xl"><IoBagHandleOutline /></button>
           </div>
 
-          {/* Underline Indicator */}
-          <div className="w-full h-1 bg-white rounded-full mb-5 flex overflow-hidden">
-            <div 
-              className={`h-full bg-[#336699] transition-all duration-300 ${activeButton === 'main' ? 'w-1/2' : 'w-1/2 ml-auto'}`}
-            ></div>
+          {/* Desktop Navbar */}
+          <div className="hidden md:flex items-center justify-between py-8 gap-8">
+            <Image src={Logo} alt="Logo" width={144} height={50} />
+
+            {/* Search Bar */}
+            <div className="flex-1 flex items-center border-2 border-blue-600 rounded-lg">
+              <select className="px-4 py-2 bg-transparent focus:outline-none">
+                <option>All Categories</option>
+                <option>Fashion</option>
+                <option>Furniture</option>
+                <option>Electronics</option>
+                <option>Sports</option>
+              </select>
+              <div className="w-px h-8 bg-blue-600"></div>
+              <input type="search" placeholder="Search products..." className="flex-1 px-4 py-2 focus:outline-none" />
+              <button className="px-4 text-xl text-blue-600"><IoSearchOutline /></button>
+            </div>
+
+            {/* Contact Info */}
+            <div className="flex items-center gap-2">
+              <FaPhoneVolume className="text-xl text-blue-600" />
+              <div className="text-sm">
+                <p className="text-gray-500">Live Chat or:</p>
+                <p className="font-bold">0 (800) 123-456</p>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center gap-8 text-gray-700 border-l border-gray-300 pl-8">
+              <button className="flex flex-col items-center gap-1 hover:text-blue-600">
+                <FaRegHeart className="text-xl" />
+                <span className="text-xs">Wishlist</span>
+              </button>
+              <button className="flex flex-col items-center gap-1 hover:text-blue-600">
+                <FaBalanceScaleLeft className="text-xl" />
+                <span className="text-xs">Compare</span>
+              </button>
+              <button className="flex flex-col items-center gap-1 hover:text-blue-600">
+                <IoBag className="text-xl" />
+                <span className="text-xs">Cart</span>
+              </button>
+            </div>
           </div>
 
-          {/* Menu Items */}
-          <div className="flex-1 text-white overflow-y-auto">
-            <ul className="flex flex-col gap-0">
-              <li className="py-3 border-b border-gray-600">
-                <Link href="/" className="text-white">Home</Link>
-              </li>
+          {/* Bottom Menu */}
+          <div className="hidden md:flex items-center justify-between border-t border-gray-200 py-4 text-sm">
+            
+            <div className="flex gap-6">
+              <Link href="#" className="hover:text-blue-600 transition  flex items-center gap-2"> <TbCategoryPlus/> Browse Categories</Link>
 
-              {/* Shop */}
-              <li className="py-3 border-b border-gray-600">
-                <button 
-                  onClick={() => toggleMenu('shop')} 
-                  className="w-full flex items-center justify-between text-white hover:text-[#336699] transition-colors"
-                >
-                  <span>Shop</span>
-                  <MdKeyboardArrowDown className={`transition-transform ${expandedMenus.has('shop') ? 'rotate-180' : ''}`} />
-                </button>
-                {expandedMenus.has('shop') && (
-                  <ul className="pl-4 mt-2 space-y-2">
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Shop Page</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Shop Layouts</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Products Pages</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Products Layouts</Link></li>
-                  </ul>
-                )}
-              </li>
+              <Link href="#" className="hover:text-blue-600 transition">Home</Link>
+              <Link href="#" className="hover:text-blue-600 transition">Shop</Link>
+              <Link href="#" className="hover:text-blue-600 transition">Vendor</Link>
+              <Link href="#" className="hover:text-blue-600 transition">Blog</Link>
+              <Link href="#" className="hover:text-blue-600 transition">Pages</Link>
+              <Link href="#" className="hover:text-blue-600 transition">Elements</Link>
 
-              {/* Vendor */}
-              <li className="py-3 border-b border-gray-600">
-                <button 
-                  onClick={() => toggleMenu('vendor')} 
-                  className="w-full flex items-center justify-between text-white hover:text-[#336699] transition-colors"
-                >
-                  <span>Vendor</span>
-                  <MdKeyboardArrowDown className={`transition-transform ${expandedMenus.has('vendor') ? 'rotate-180' : ''}`} />
-                </button>
-                {expandedMenus.has('vendor') && (
-                  <ul className="pl-4 mt-2 space-y-2">
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Store Listing</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Vendor Store</Link></li>
-                  </ul>
-                )}
-              </li>
+            </div>
 
-              {/* Blog */}
-              <li className="py-3 border-b border-gray-600">
-                <button 
-                  onClick={() => toggleMenu('blog')} 
-                  className="w-full flex items-center justify-between text-white hover:text-[#336699] transition-colors"
-                >
-                  <span>Blog</span>
-                  <MdKeyboardArrowDown className={`transition-transform ${expandedMenus.has('blog') ? 'rotate-180' : ''}`} />
-                </button>
-                {expandedMenus.has('blog') && (
-                  <ul className="pl-4 mt-2 space-y-2">
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Classic</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Listing</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Grid</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Masonry</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Mask</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Single Post</Link></li>
-                  </ul>
-                )}
-              </li>
 
-              {/* Pages */}
-              <li className="py-3 border-b border-gray-600">
-                <button 
-                  onClick={() => toggleMenu('pages')} 
-                  className="w-full flex items-center justify-between text-white hover:text-[#336699] transition-colors"
-                >
-                  <span>Pages</span>
-                  <MdKeyboardArrowDown className={`transition-transform ${expandedMenus.has('pages') ? 'rotate-180' : ''}`} />
-                </button>
-                {expandedMenus.has('pages') && (
-                  <ul className="pl-4 mt-2 space-y-2">
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">About Us</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Become a Vendor</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Contact Us</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Login</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">FAQs</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Error 404</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Coming Soon</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Wishlist</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Cart</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Checkout</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">My Account</Link></li>
-                  </ul>
-                )}
-              </li>
+            <div className="flex gap-6">
+              <Link href="#" className="hover:text-blue-600  flex items-center gap-2"> <MdOutlineMyLocation/> Track Order</Link>
+              <Link href="#" className="hover:text-blue-600  flex items-center gap-2 "> <IoMdPricetag/> Daily Deals</Link>
+            </div>
 
-              {/* Elements */}
-              <li className="py-3 border-b border-gray-600">
-                <button 
-                  onClick={() => toggleMenu('elements')} 
-                  className="w-full flex items-center justify-between text-white hover:text-[#336699] transition-colors"
-                >
-                  <span>Elements</span>
-                  <MdKeyboardArrowDown className={`transition-transform ${expandedMenus.has('elements') ? 'rotate-180' : ''}`} />
-                </button>
-                {expandedMenus.has('elements') && (
-                  <ul className="pl-4 mt-2 space-y-2">
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Products</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Typography</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Products Category</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Button</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Accordions</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Alert & Notification</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Tabs</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Testimony</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Blog Post</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Instagrams</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Call To Action</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Vendors</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Icon Boxes</Link></li>
-                    <li><Link href="#" className="text-gray-300 hover:text-[#336699]">Icon</Link></li>
-                  </ul>
-                )}
-              </li>
-            </ul>
+
           </div>
+
+
 
         </div>
-
-
       </div>
-      }
-      {/* mobail manuber */}
-
-
-      {/* Icon manuber */}
-
-
-      {/* Logo */}
-      <div className=" w-[144px] h-[45px] ">
-        <Image src={Logo} alt="Logo" className="w-full h-full"/>
-      </div>
-      {/* Logo */}
-
-
-      {/* cart */}
-      <div className="CartIcon text-[26px] ">
-        <IoBagHandleOutline />
-      </div>
-      {/* cart */}
-
-
-
-    </div>
-    {/* Main Nabver */}
     </>
-
   );
 };
 
-export default page;
+export default Navbar;
