@@ -5,7 +5,7 @@ const page = () => {
     <>
 
 
-    <div className="w-full h-[100px] flex justify-center items-center bg-black text-2xl text-white font-bold ">
+    <div className=" container w-full h-[100px] flex justify-center items-center bg-black text-2xl text-white font-bold ">
       Footer Yet To Come
     </div>
       

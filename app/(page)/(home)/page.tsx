@@ -5,7 +5,7 @@ const page = () => {
     <>
 
 
-    <div className="w-full h-screen flex justify-center items-center">
+    <div className=" container w-full h-screen flex justify-center items-center">
       <h1 className=' text-sm md:text-9xl'> hello Home page</h1>
     </div>
       
