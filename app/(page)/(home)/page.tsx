@@ -42,10 +42,10 @@ const page = () => {
   
   return (
     <>
-    <div className="w-full h-screen">
+    <div className="w-full h-auto md:h-screen">
       {/* for slider */}
       
-      <div className="relative w-full h-[1040px] overflow-hidden">
+      <div className="relative w-full h-auto md:h-[1040px] overflow-hidden">
         {/* Slider Container */}
         <div 
           className="flex transition-transform duration-700 ease-in-out h-full"
@@ -54,44 +54,44 @@ const page = () => {
           }}
         >
           {/* Slide 1 - Running Shoes */}
-          <div key={`slide-1-${currentSlide}`} className="w-full h-[520px] BackGroundImage flex justify-center items-center gap-10 shrink-0">
+          <div key={`slide-1-${currentSlide}`} className="w-full h-auto md:h-[520px] BackGroundImage flex flex-col md:flex-row justify-center items-center gap-4 md:gap-10 shrink-0 px-4 py-8 md:py-0 md:px-0">
 
-              <div className="LeftPhoto w-[474px] h-[397px] ">
-                  <Image src={LeftPhotosForSlid} alt='Slid Image' className='w-full h-full'/>
+              <div className="LeftPhoto w-full md:w-[474px] h-48 sm:h-64 md:h-[397px] shrink-0">
+                  <Image src={LeftPhotosForSlid} alt='Slid Image' className='w-full h-full object-cover'/>
               </div>
 
-              <div className="RightText flex flex-col items-end text-[40px] font-normal text-[#666] ">
+              <div className="RightText flex flex-col items-center md:items-end text-base sm:text-2xl md:text-[40px] font-normal text-[#666] w-full md:w-auto">
 
-                <p className="animate-slide-text-1">  <span> Custom </span>  <span className=' border-[#f77c29] border-b-2 '> Men's </span>  </p>
+                <p className="animate-slide-text-1 text-center md:text-right">  <span> Custom </span>  <span className='border-[#f77c29] border-b-2'> Men's </span>  </p>
 
-                <p className='font-bold text-black text-[50px] animate-slide-text-2'> RUNNING SHOES </p>
+                <p className='font-bold text-black text-2xl sm:text-4xl md:text-[50px] animate-slide-text-2 text-center md:text-right'> RUNNING SHOES </p>
 
-                <p className='text-2xl text-[#668] mb-8 animate-slide-text-3'>  <span> Sale up to </span>   <span className='text-[#f77c29] '> 30% OFF </span>  </p>
+                <p className='text-base sm:text-lg md:text-2xl text-[#668] mb-4 md:mb-8 animate-slide-text-3 text-center md:text-right'>  <span> Sale up to </span>   <span className='text-[#f77c29]'> 30% OFF </span>  </p>
 
-                <button className='flex items-center gap-5 border border-[#333] px-[34px] py-[17px]  rounded-[3px] text-black text-sm animate-slide-text-4'> SHOP NOW  <GoArrowRight />  </button>
+                <button className='flex items-center gap-5 border border-[#333] px-6 sm:px-[34px] py-3 sm:py-[17px] rounded-[3px] text-black text-xs sm:text-sm animate-slide-text-4 hover:bg-[#f77c29] hover:text-white hover:border-[#f77c29] transition-all'> SHOP NOW  <GoArrowRight />  </button>
 
               </div>
 
           </div>
 
           {/* Slide 2 - Roller Skate */}
-          <div key={`slide-2-${currentSlide}`} className="w-full h-[520px] BackGroundImage2 flex justify-center items-center gap-10 shrink-0">
+          <div key={`slide-2-${currentSlide}`} className="w-full h-auto md:h-[520px] BackGroundImage2 flex flex-col md:flex-row justify-center items-center gap-4 md:gap-10 shrink-0 px-4 py-8 md:py-0 md:px-0">
 
-              <div className="LeftPhoto w-[310px] h-[444px] ">
-                  <Image src={LeftPhotosForSlid2} alt='Slid Image' className='w-full h-full'/>
+              <div className="LeftPhoto w-full md:w-[310px] h-48 sm:h-64 md:h-[444px] shrink-0">
+                  <Image src={LeftPhotosForSlid2} alt='Slid Image' className='w-full h-full object-cover'/>
               </div>
 
-              <div className="RightText flex flex-col items-end text-[40px] font-normal text-[#666] ">
+              <div className="RightText flex flex-col items-center md:items-end text-base sm:text-2xl md:text-[40px] font-normal text-[#666] w-full md:w-auto">
 
-                <p className="animate-slide-text-1">  Top weekly Seller  </p>
+                <p className="animate-slide-text-1 text-center md:text-right text-sm sm:text-base">  Top weekly Seller  </p>
 
-                <p className="animate-slide-text-2">Trending Collection</p>
+                <p className="animate-slide-text-2 text-center md:text-right text-sm sm:text-base">Trending Collection</p>
 
-                <p className='font-bold text-black text-[50px] border-b-[3px] border-b-[#f77c29] mb-8 animate-slide-text-3'> <span className='Roller px-10 bg-[#f77c29] text-white '>Roller</span> -skate </p>
+                <p className='font-bold text-black text-2xl sm:text-4xl md:text-[50px] border-b-[3px] border-b-[#f77c29] mb-4 md:mb-8 animate-slide-text-3 text-center md:text-right'> <span className='Roller px-4 sm:px-10 bg-[#f77c29] text-white inline-block'>Roller</span> <span className='block md:inline'>-skate</span> </p>
 
-                <p className='text-2xl text-[#668] mb-8 animate-slide-text-3'>  <span> Sale up to </span>   <span className='text-[#f77c29] '> 30% OFF </span>  </p>
+                <p className='text-base sm:text-lg md:text-2xl text-[#668] mb-4 md:mb-8 animate-slide-text-3 text-center md:text-right'>  <span> Sale up to </span>   <span className='text-[#f77c29]'> 30% OFF </span>  </p>
 
-                <button className='flex items-center gap-5 border border-[#333] px-[34px] py-[17px]  rounded-[3px] text-black text-sm animate-slide-text-4'> SHOP NOW  <GoArrowRight />  </button>
+                <button className='flex items-center gap-5 border border-[#333] px-6 sm:px-[34px] py-3 sm:py-[17px] rounded-[3px] text-black text-xs sm:text-sm animate-slide-text-4 hover:bg-[#f77c29] hover:text-white hover:border-[#f77c29] transition-all'> SHOP NOW  <GoArrowRight />  </button>
 
               </div>
 
@@ -101,26 +101,26 @@ const page = () => {
         {/* Navigation Buttons */}
         <button 
           onClick={prevSlide}
-          className='absolute left-5 top-60 transform -translate-y-1/2 bg-[#00000068] hover:bg-black/70 text-4xl text-white px-7 py-4 rounded-full z-10 transition-all'
+          className='absolute left-2 sm:left-5 top-1/2 md:top-60 transform -translate-y-1/2 bg-[#00000068] hover:bg-black/70 text-2xl sm:text-4xl text-white px-3 sm:px-7 py-2 sm:py-4 rounded-full z-10 transition-all'
         >
           ❮
         </button>
 
         <button 
           onClick={nextSlide}
-          className='absolute right-5 top-60 transform -translate-y-1/2 bg-[#00000068] text-4xl hover:bg-black/70 text-white px-7 py-4 rounded-full z-10 transition-all'
+          className='absolute right-2 sm:right-5 top-1/2 md:top-60 transform -translate-y-1/2 bg-[#00000068] text-2xl sm:text-4xl hover:bg-black/70 text-white px-3 sm:px-7 py-2 sm:py-4 rounded-full z-10 transition-all'
         >
           ❯
         </button>
 
         {/* Slide Indicators */}
-        <div className='absolute bottom-5 left-1/2 transform -translate-x-1/2 flex gap-2 z-10'>
+        <div className='absolute bottom-120 sm:bottom-120 left-1/2 transform -translate-x-1/2 flex gap-2 z-10'>
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-3 rounded-full transition-all ${
-                index === currentSlide ? 'bg-[#f77c29] w-8' : 'bg-white/50 w-3'
+              className={`h-2 sm:h-3 rounded-full transition-all ${
+                index === currentSlide ? 'bg-[#f77c29] w-6 sm:w-8' : 'bg-[#2d2d2dd6] w-2 sm:w-3'
               }`}
             />
           ))}
