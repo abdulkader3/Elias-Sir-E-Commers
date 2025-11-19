@@ -2,7 +2,7 @@ import React from 'react'
 
 const HomeComponent1 = () => {
     return (
-        <div className="w-full overflow-x-hidden">
+        <div className="w-full overflow-x-hidden container">
             {/* Top Features Section */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-6 md:px-12 py-8 bg-white w-full">
                 {/* Free Shipping */}
