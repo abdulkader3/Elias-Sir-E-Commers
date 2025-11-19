@@ -9,6 +9,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 // Import Components
 import HomeComponent1 from '../../Components/Home/HomeComponent1'
 import HomeComponent2 from '../../Components/Home/HomeComponent2'
+import HomeComponent3 from '../../Components/Home/HomeComponent3'
 
 
 const page = () => {
@@ -136,8 +137,8 @@ const page = () => {
 
       <HomeComponent2/>
       
-      {/* <HomeComponent3/> */}
-      
+      <HomeComponent3/>
+
       {/* rest of the Components */}
     </div>
       
