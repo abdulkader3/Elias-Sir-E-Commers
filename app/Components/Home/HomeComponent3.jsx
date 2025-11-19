@@ -131,8 +131,8 @@ const HomeComponent3 = () => {
     }
 
     return (
-        <section className="w-full py-16 bg-white">
-            <div className="container">
+        <section className="w-full py-16 bg-white container">
+            <div className="">
                 {/* Header */}
                 <div className="text-center mb-10">
                     <h2 className="text-3xl font-bold text-gray-900 mb-8">Popular Departments</h2>

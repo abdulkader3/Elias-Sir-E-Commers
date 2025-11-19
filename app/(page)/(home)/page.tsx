@@ -10,6 +10,9 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import HomeComponent1 from '../../Components/Home/HomeComponent1'
 import HomeComponent2 from '../../Components/Home/HomeComponent2'
 import HomeComponent3 from '../../Components/Home/HomeComponent3'
+import HomeComponent4 from '../../Components/Home/HomeComponent4'
+import HomeComponent5 from '../../Components/Home/HomeComponent5'
+import HomeComponent6 from '../../Components/Home/HomeComponent6'
 
 
 const page = () => {
@@ -138,6 +141,12 @@ const page = () => {
       <HomeComponent2/>
       
       <HomeComponent3/>
+
+      <HomeComponent4/>
+
+      <HomeComponent5/>
+
+      <HomeComponent6/>
 
       {/* rest of the Components */}
     </div>

@@ -9,13 +9,13 @@ const TopHeader = () => {
             <div className="max-w-7xl mx-auto px-4 py-3">
               <div className="flex justify-between items-center">
                 <div></div>
-                <div className="flex gap-6 items-center">
-                  <select id="Currency" name="Currency" className="focus:outline-none bg-transparent">
+                <div className="flex gap-3 sm:gap-6 items-center">
+                  <select id="Currency" name="Currency" className="focus:outline-none bg-transparent cursor-pointer text-xs sm:text-sm">
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
                     <option value="BDT">BDT</option>
                   </select>
-                  <select id="Language" name="Language" className="focus:outline-none bg-transparent">
+                  <select id="Language" name="Language" className="focus:outline-none bg-transparent cursor-pointer text-xs sm:text-sm">
                     <option value="E">English</option>
                     <option value="F">Français</option>
                     <option value="D">Deutsch</option>

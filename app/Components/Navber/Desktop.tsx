@@ -50,8 +50,8 @@ const Desktop = () => {
 
             {/* Contact Info */}
             <div className="flex items-center gap-2">
-              <FaPhoneVolume className="text-xl text-blue-600" />
-              <div className="text-sm">
+              <FaPhoneVolume className=" shrink-0 md:text-[18px] lg:text-xl text-blue-600" />
+              <div className=" shrink-0 md:text-[12px] lg:text-sm">
                 <p className="text-gray-500">Live Chat or:</p>
                 <p className="font-bold">0 (800) 123-456</p>
               </div>
@@ -89,7 +89,7 @@ const Desktop = () => {
 
                 {/* Dropdown Menu */}
                 {showCategoryDropdown && (
-                  <div className="absolute left-0 top-full mt-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-max pointer-events-auto">
+                  <div className="absolute left-0 top-full mt-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-max pointer-events-auto max-h-96 overflow-y-auto">
                     <div className="grid grid-cols-1 gap-0">
                       {categories.map((category, index) => {
                         const IconComponent = category.icon;
@@ -97,9 +97,9 @@ const Desktop = () => {
                           <Link
                             key={index}
                             href="#"
-                            className="px-6 py-3 flex items-center gap-3 hover:bg-blue-50 hover:text-blue-600 transition-colors border-b border-gray-100 last:border-b-0"
+                            className="px-6 py-3 flex items-center gap-3 hover:bg-blue-50 hover:text-blue-600 transition-colors border-b border-gray-100 last:border-b-0 whitespace-nowrap"
                           >
-                            <IconComponent className="text-lg" />
+                            <IconComponent className="text-lg shrink-0" />
                             <span>{category.name}</span>
                           </Link>
                         );

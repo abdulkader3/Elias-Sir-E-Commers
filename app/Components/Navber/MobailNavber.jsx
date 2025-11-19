@@ -97,42 +97,80 @@ const MobailNavber = () => {
     
                       {/* Search Bar */}
                       <div className="mb-5 relative">
-                        <input className="w-full px-4 py-2 rounded-full bg-gray-300 border-0 focus:outline-none" type="search" placeholder="Search" />
-                        <IoIosSearch className="absolute right-4 top-2 text-2xl text-gray-600" />
+                        <input className="w-full px-4 py-2 pr-10 rounded-full bg-gray-300 border-0 focus:outline-none focus:ring-2 focus:ring-blue-500" type="search" placeholder="Search" />
+                        <IoIosSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-2xl text-gray-600 pointer-events-none" />
                       </div>
     
                       {/* Tab Buttons */}
                       <div className="flex gap-0 mb-4 border-b border-gray-700">
-                        <button onClick={() => setActiveButton("main")} className={`flex-1 py-2 font-medium ${activeButton === "main" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-400"}`}>
+                        <button onClick={() => setActiveButton("main")} className={`flex-1 py-2 text-center font-medium text-sm ${activeButton === "main" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-400"}`}>
                           Main Menu
                         </button>
-                        <button onClick={() => setActiveButton("categories")} className={`flex-1 py-2 font-medium ${activeButton === "categories" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-400"}`}>
+                        <button onClick={() => setActiveButton("categories")} className={`flex-1 py-2 text-center font-medium text-sm ${activeButton === "categories" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-400"}`}>
                           Categories
                         </button>
                       </div>
     
                       {/* Menu Items */}
                       <div className="flex-1 overflow-y-auto">
-                        <ul className="space-y-0">
-                          <li className="border-b border-gray-700">
-                            <Link href="/" className="block py-3 hover:text-blue-400">Home</Link>
-                          </li>
-                          {["Shop", "Vendor", "Blog", "Pages", "Elements"].map((menu) => (
-                            <li key={menu} className="border-b border-gray-700">
-                              <button onClick={() => toggleMenu(menu.toLowerCase())} className="w-full flex items-center justify-between py-3 hover:text-blue-400">
-                                <span>{menu}</span>
-                                <MdKeyboardArrowDown className={`transition-transform ${expandedMenus.has(menu.toLowerCase()) ? "rotate-180" : ""}`} />
-                              </button>
-                              {expandedMenus.has(menu.toLowerCase()) && (
-                                <ul className="pl-4 space-y-2 text-gray-400 pb-2">
-                                  <li><Link href="#" className="hover:text-blue-400 block">{menu} Page</Link></li>
-                                  <li><Link href="#" className="hover:text-blue-400 block">{menu} Layouts</Link></li>
-                                  <li><Link href="#" className="hover:text-blue-400 block">{menu} Items</Link></li>
-                                </ul>
-                              )}
+                        {activeButton === "main" ? (
+                          <ul className="space-y-0">
+                            <li className="border-b border-gray-700">
+                              <Link href="/" className="block py-3 hover:text-blue-400">Home</Link>
                             </li>
-                          ))}
-                        </ul>
+                            {["Shop", "Vendor", "Blog", "Pages", "Elements"].map((menu) => (
+                              <li key={menu} className="border-b border-gray-700">
+                                <button onClick={() => toggleMenu(menu.toLowerCase())} className="w-full flex items-center justify-between py-3 hover:text-blue-400">
+                                  <span>{menu}</span>
+                                  <MdKeyboardArrowDown className={`transition-transform ${expandedMenus.has(menu.toLowerCase()) ? "rotate-180" : ""}`} />
+                                </button>
+                                {expandedMenus.has(menu.toLowerCase()) && (
+                                  <ul className="pl-4 space-y-2 text-gray-400 pb-2">
+                                    <li><Link href="#" className="hover:text-blue-400 block">{menu} Page</Link></li>
+                                    <li><Link href="#" className="hover:text-blue-400 block">{menu} Layouts</Link></li>
+                                    <li><Link href="#" className="hover:text-blue-400 block">{menu} Items</Link></li>
+                                  </ul>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <ul className="space-y-0">
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Fashion</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Home & Garden</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Electronics</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Furniture</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Healthy & Beauty</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Gift Ideas</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Toy & Games</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Cooking</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Smart Phones</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Cameras & Photo</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="#" className="block py-3 hover:text-blue-400">Accessories</Link>
+                            </li>
+                          </ul>
+                        )}
                       </div>
                     </div>
                   </div>
