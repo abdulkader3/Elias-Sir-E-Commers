@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <>
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-gray-900 text-white container">
       {/* Newsletter Section */}
       <div className="bg-[#336699] py-12">
         <div className="max-w-6xl mx-auto px-4">

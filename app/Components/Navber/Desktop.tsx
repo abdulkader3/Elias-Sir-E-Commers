@@ -79,7 +79,7 @@ const Desktop = () => {
             
             <div className="flex gap-6">
               <div 
-                className="relative group"
+                className="relative"
                 onMouseEnter={() => setShowCategoryDropdown(true)}
                 onMouseLeave={() => setShowCategoryDropdown(false)}
               >
@@ -89,7 +89,7 @@ const Desktop = () => {
 
                 {/* Dropdown Menu */}
                 {showCategoryDropdown && (
-                  <div className="absolute left-0 top-full mt-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-max">
+                  <div className="absolute left-0 top-full mt-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-max pointer-events-auto">
                     <div className="grid grid-cols-1 gap-0">
                       {categories.map((category, index) => {
                         const IconComponent = category.icon;
