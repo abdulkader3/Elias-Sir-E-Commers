@@ -103,12 +103,7 @@ const Desktop = () => {
               </span>
             )}
           </Link>
-          <Link href="/login" className="flex flex-col items-center gap-1 hover:text-blue-600">
-            <span className="text-xs">Login</span>
-          </Link>
-          <Link href="/register" className="flex flex-col items-center gap-1 hover:text-blue-600">
-            <span className="text-xs">Register</span>
-          </Link>
+
         </div>
       </div>
 

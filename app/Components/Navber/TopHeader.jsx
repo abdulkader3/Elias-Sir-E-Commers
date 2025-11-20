@@ -27,8 +27,8 @@ const TopHeader = () => {
                     <Link href="#" className="hover:text-blue-600">My Account</Link>
                     <div className="flex items-center gap-1">
                       <CiUser className="text-lg" />
-                      <Link href="#" className="hover:text-blue-600">Sign In</Link>/
-                      <Link href="#" className="hover:text-blue-600">Register</Link>
+                      <Link href="/login" className="hover:text-blue-600">Sign In</Link>/
+                      <Link href="/register" className="hover:text-blue-600">Register</Link>
                     </div>
                   </div>
                 </div>
