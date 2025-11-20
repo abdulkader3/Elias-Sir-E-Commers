@@ -1,14 +1,15 @@
-import React from 'react'
+// Server-Side Rendering (SSR)
+// This page displays a collection of blog posts with search and category filtering
 
-const page = () => {
+import React from 'react';
+import BlogContent from '../../Components/Blog/BlogContent';
+
+const BlogPage = () => {
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
+      <BlogContent />
+    </div>
+  );
+};
 
-
-    <h1 className='text-9xl'> hello blog page</h1>
-      
-    </>
-  )
-}
-
-export default page
+export default BlogPage;

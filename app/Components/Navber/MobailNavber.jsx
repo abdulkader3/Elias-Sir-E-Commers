@@ -8,12 +8,16 @@ import { IoIosSearch } from "react-icons/io";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import Logo from "../../../public/photos/logo.png";
+import { useCart } from "../../context/CartContext";
 
 const MobailNavber = () => {
+  const { getTotalItems } = useCart();
   const [mobileNavbar, setMobileNavbar] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState(new Set());
   const [activeButton, setActiveButton] = useState("main");
+
+  const cartCount = getTotalItems();
 
   const styles = `
     @keyframes slideInFromLeft {
@@ -109,6 +113,9 @@ const MobailNavber = () => {
                         <button onClick={() => setActiveButton("categories")} className={`flex-1 py-2 text-center font-medium text-sm ${activeButton === "categories" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-400"}`}>
                           Categories
                         </button>
+                        <button onClick={() => setActiveButton("account")} className={`flex-1 py-2 text-center font-medium text-sm ${activeButton === "account" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-400"}`}>
+                          Account
+                        </button>
                       </div>
     
                       {/* Menu Items */}
@@ -134,7 +141,7 @@ const MobailNavber = () => {
                               </li>
                             ))}
                           </ul>
-                        ) : (
+                        ) : activeButton === "categories" ? (
                           <ul className="space-y-0">
                             <li className="border-b border-gray-700">
                               <Link href="#" className="block py-3 hover:text-blue-400">Fashion</Link>
@@ -170,6 +177,18 @@ const MobailNavber = () => {
                               <Link href="#" className="block py-3 hover:text-blue-400">Accessories</Link>
                             </li>
                           </ul>
+                        ) : (
+                          <ul className="space-y-0">
+                            <li className="border-b border-gray-700">
+                              <Link href="/login" className="block py-3 hover:text-blue-400">Login</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="/register" className="block py-3 hover:text-blue-400">Register</Link>
+                            </li>
+                            <li className="border-b border-gray-700">
+                              <Link href="/cart" className="block py-3 hover:text-blue-400">Cart</Link>
+                            </li>
+                          </ul>
                         )}
                       </div>
                     </div>
@@ -177,7 +196,13 @@ const MobailNavber = () => {
                 )}
     
                 <Image src={Logo} alt="Logo" width={144} height={50} />
-                <button className="text-2xl"><IoBagHandleOutline /></button>
+                <Link href="/cart" className="text-2xl relative"><IoBagHandleOutline />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+                </Link>
               </div>
       
     </>

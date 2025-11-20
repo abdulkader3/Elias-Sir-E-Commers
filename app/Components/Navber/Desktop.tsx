@@ -24,10 +24,12 @@ import {
 } from "react-icons/md";
 import { TbCategoryPlus } from "react-icons/tb";
 import Logo from "../../../public/photos/logo.png";
+import { useCart } from "../../context/CartContext";
 // Components
 import HoverComponent from "../Shop/HoverComponent";
 
 const Desktop = () => {
+  const { getTotalItems } = useCart();
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showShopDropdown, setShowShopDropdown] = useState(false);
 
@@ -45,6 +47,8 @@ const Desktop = () => {
     { name: "Accessories", icon: GiDiamonds },
     { name: "View All Categories", icon: FaAngleRight },
   ];
+
+  const cartCount = getTotalItems();
 
   return (
     <>
@@ -90,10 +94,21 @@ const Desktop = () => {
             <FaBalanceScaleLeft className="text-xl" />
             <span className="text-xs">Compare</span>
           </button>
-          <button className="flex flex-col items-center gap-1 hover:text-blue-600">
+          <Link href="/cart" className="flex flex-col items-center gap-1 hover:text-blue-600 relative">
             <IoBag className="text-xl" />
             <span className="text-xs">Cart</span>
-          </button>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+          <Link href="/login" className="flex flex-col items-center gap-1 hover:text-blue-600">
+            <span className="text-xs">Login</span>
+          </Link>
+          <Link href="/register" className="flex flex-col items-center gap-1 hover:text-blue-600">
+            <span className="text-xs">Register</span>
+          </Link>
         </div>
       </div>
 
