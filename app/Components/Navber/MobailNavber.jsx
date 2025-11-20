@@ -82,6 +82,14 @@ const MobailNavber = () => {
     setExpandedMenus(newMenus);
   };
 
+  const menuRoutes = {
+    shop: "/shop",
+    vendor: "/vendor",
+    blog: "/blog",
+    pages: "/pages",
+    elements: "/elements"
+  };
+
   return (
     <>
       <style>{styles}</style>
@@ -127,17 +135,9 @@ const MobailNavber = () => {
                             </li>
                             {["Shop", "Vendor", "Blog", "Pages", "Elements"].map((menu) => (
                               <li key={menu} className="border-b border-gray-700">
-                                <button onClick={() => toggleMenu(menu.toLowerCase())} className="w-full flex items-center justify-between py-3 hover:text-blue-400">
+                                <Link href={menuRoutes[menu.toLowerCase()]} className="w-full flex items-center justify-between py-3 hover:text-blue-400">
                                   <span>{menu}</span>
-                                  <MdKeyboardArrowDown className={`transition-transform ${expandedMenus.has(menu.toLowerCase()) ? "rotate-180" : ""}`} />
-                                </button>
-                                {expandedMenus.has(menu.toLowerCase()) && (
-                                  <ul className="pl-4 space-y-2 text-gray-400 pb-2">
-                                    <li><Link href="#" className="hover:text-blue-400 block">{menu} Page</Link></li>
-                                    <li><Link href="#" className="hover:text-blue-400 block">{menu} Layouts</Link></li>
-                                    <li><Link href="#" className="hover:text-blue-400 block">{menu} Items</Link></li>
-                                  </ul>
-                                )}
+                                </Link>
                               </li>
                             ))}
                           </ul>
