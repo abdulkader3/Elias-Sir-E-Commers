@@ -1,6 +1,5 @@
 // Server-Side Rendering (SSR)
-// This page fetches a single product from dummyJson API based on the product ID
-// It displays full product details including images, description, price, and reviews
+
 
 import React from 'react';
 import { Suspense } from 'react';

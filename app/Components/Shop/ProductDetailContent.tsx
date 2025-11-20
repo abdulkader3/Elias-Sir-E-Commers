@@ -4,6 +4,7 @@
 
 import React from 'react';
 import ProductDetailClient from './ProductDetailClient';
+import { ApiDataForDummyJson } from '@/app/Service/Api/dummyJsonApi';
 
 interface ApiProduct {
   id: number;
@@ -25,16 +26,8 @@ interface Product extends ApiProduct {}
 
 async function fetchProductDetails(productId: string): Promise<Product | null> {
   try {
-    const response = await fetch(
-      `https://dummyjson.com/products/${productId}`,
-      {
-        next: { revalidate: 3600 } // Cache for 1 hour
-      }
-    );
-    if (!response.ok) {
-      return null;
-    }
-    return await response.json();
+    const product = await ApiDataForDummyJson.getProductById(productId);
+    return product;
   } catch (error) {
     console.error('Failed to fetch product details:', error);
     return null;

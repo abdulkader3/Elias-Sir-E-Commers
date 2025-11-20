@@ -6,6 +6,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ShopClientComponent from './ShopClientComponent';
+import { ApiDataForDummyJson } from '@/app/Service/Api/dummyJsonApi';
 
 interface Product {
   id: number;
@@ -33,10 +34,7 @@ interface ApiProduct {
 
 async function fetchProducts(): Promise<Product[]> {
   try {
-    const response = await fetch('https://dummyjson.com/products?limit=100', {
-      next: { revalidate: 3600 } // Cache for 1 hour
-    });
-    const data = await response.json();
+    const data = await ApiDataForDummyJson.getProducts(100);
     
     return data.products.map((product: ApiProduct) => ({
       id: product.id,
