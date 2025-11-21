@@ -1,6 +1,25 @@
-import React from 'react';
+'use client'
+import React, { useState, useEffect } from 'react';
+import { ApiDataForDummyJson } from '../../Service/Api/dummyJsonApi';
 
 const HomeComponent6 = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await ApiDataForDummyJson.getProducts(12);
+        setProducts(data.products);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
   const clientLogos = [
     { id: 1, name: 'Sterling' },
     { id: 2, name: 'Neo' },
@@ -16,47 +35,20 @@ const HomeComponent6 = () => {
     { id: 12, name: 'SkillStar' },
   ];
 
-  const blogPosts = [
-    {
-      id: 1,
-      image: null,
-      author: 'John Doe',
-      date: '03.05.2021',
-      title: 'Aliquam tincidunt mauris erisus',
-    },
-    {
-      id: 2,
-      image: null,
-      author: 'John Doe',
-      date: '03.05.2021',
-      title: 'Cras ornare tristique elit',
-    },
-    {
-      id: 3,
-      image: null,
-      author: 'John Doe',
-      date: '03.05.2021',
-      title: 'Vivamus vestibulum nulla nec ante',
-    },
-    {
-      id: 4,
-      image: null,
-      author: 'John Doe',
-      date: '03.05.2021',
-      title: 'Fusce lacinia arcuit nulla',
-    },
-  ];
+  const blogPosts = products.slice(0, 4).map((product, index) => ({
+    id: product.id,
+    image: product.thumbnail,
+    author: product.brand || 'Store Admin',
+    date: new Date(Date.now() - index * 86400000).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+    title: product.title,
+    description: product.description
+  }));
 
-  const recentViews = [
-    { id: 1, image: null },
-    { id: 2, image: null },
-    { id: 3, image: null },
-    { id: 4, image: null },
-    { id: 5, image: null },
-    { id: 6, image: null },
-    { id: 7, image: null },
-    { id: 8, image: null },
-  ];
+  const recentViews = products.slice(0, 8).map((product) => ({
+    id: product.id,
+    image: product.thumbnail,
+    name: product.title
+  }));
 
   return (
     <div className="w-full bg-white container">
@@ -71,7 +63,7 @@ const HomeComponent6 = () => {
               key={client.id}
               className="border border-gray-200 rounded-lg p-6 flex items-center justify-center min-h-24 bg-gray-50 hover:bg-gray-100 transition"
             >
-              <span className="text-gray-400 text-sm font-semibold">Logo</span>
+              <span className="text-gray-400 text-sm font-semibold">{client.name}</span>
             </div>
           ))}
         </div>
@@ -90,33 +82,43 @@ const HomeComponent6 = () => {
         </div>
 
         {/* Blog Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {blogPosts.map((post) => (
-            <div key={post.id} className="flex flex-col">
-              {/* Blog Image */}
-              <div className="w-full aspect-square bg-gray-200 rounded-lg mb-4 flex items-center justify-center text-gray-400">
-                <span className="text-sm">Image</span>
-              </div>
-
-              {/* Blog Content */}
-              <div className="flex flex-col gap-2">
-                <div className="text-xs text-gray-600">
-                  <span className="font-semibold">by {post.author}</span>
-                  <span className="mx-1">-</span>
-                  <span>{post.date}</span>
+        {loading ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500">Loading blog posts...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {blogPosts.map((post) => (
+              <div key={post.id} className="flex flex-col">
+                {/* Blog Image */}
+                <div className="w-full aspect-square bg-gray-200 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                  {post.image ? (
+                    <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-gray-400 text-sm">Image</span>
+                  )}
                 </div>
 
-                <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
-                  {post.title}
-                </h3>
+                {/* Blog Content */}
+                <div className="flex flex-col gap-2">
+                  <div className="text-xs text-gray-600">
+                    <span className="font-semibold">by {post.author}</span>
+                    <span className="mx-1">-</span>
+                    <span>{post.date}</span>
+                  </div>
 
-                <a href="#" className="text-sm font-semibold text-gray-700 hover:text-gray-900 transition inline-flex items-center gap-1">
-                  Read More →
-                </a>
+                  <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
+                    {post.title}
+                  </h3>
+
+                  <a href="#" className="text-sm font-semibold text-gray-700 hover:text-gray-900 transition inline-flex items-center gap-1">
+                    Read More →
+                  </a>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Divider */}
@@ -127,16 +129,27 @@ const HomeComponent6 = () => {
         <h2 className="text-2xl font-bold text-gray-900 mb-8">Your Recent Views</h2>
 
         {/* Recent Views Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4">
-          {recentViews.map((item) => (
-            <div
-              key={item.id}
-              className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-200 transition"
-            >
-              <span className="text-xs">Image</span>
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500">Loading products...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4">
+            {recentViews.map((item) => (
+              <div
+                key={item.id}
+                className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-200 transition overflow-hidden group"
+                title={item.name}
+              >
+                {item.image ? (
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition" />
+                ) : (
+                  <span className="text-xs">Image</span>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

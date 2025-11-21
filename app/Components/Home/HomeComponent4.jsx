@@ -1,81 +1,36 @@
-import React from 'react';
+'use client'
+import React, { useState, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
+import { ApiDataForDummyJson } from '../../Service/Api/dummyJsonApi';
 
 const HomeComponent4 = () => {
-  const products = [
-    {
-      id: 1,
-      name: 'Men\'s Clothing',
-      price: '$29.99',
-      originalPrice: '$25.68',
-      rating: 4.5,
-      reviews: 9,
-      image: null,
-    },
-    {
-      id: 2,
-      name: 'Women\'s Fashion Handbag',
-      price: '$25.68',
-      originalPrice: '$25.68',
-      rating: 4.5,
-      reviews: 3,
-      image: null,
-    },
-    {
-      id: 3,
-      name: 'Black Winter Skating',
-      price: '$40.66',
-      originalPrice: '$45.00',
-      rating: 4.5,
-      reviews: 3,
-      image: null,
-    },
-    {
-      id: 4,
-      name: 'Sport Women\'s Wear',
-      price: '$220.20',
-      originalPrice: '$30.00',
-      rating: 4.5,
-      reviews: 3,
-      image: null,
-    },
-    {
-      id: 5,
-      name: 'Best Travel Bag',
-      price: '$25.68',
-      originalPrice: '$28.99',
-      rating: 4.5,
-      reviews: 5,
-      image: null,
-    },
-    {
-      id: 6,
-      name: 'Gray Leather Shoes',
-      price: '$26.88',
-      originalPrice: '$27.88',
-      rating: 4.5,
-      reviews: 2,
-      image: null,
-    },
-    {
-      id: 7,
-      name: 'Men\'s Black Wrist Watch',
-      price: '$135.60',
-      originalPrice: '$155.70',
-      rating: 4.5,
-      reviews: 3,
-      image: null,
-    },
-    {
-      id: 8,
-      name: 'Women\'s Hiking Hat',
-      price: '$53.00',
-      originalPrice: null,
-      rating: 4.5,
-      reviews: 3,
-      image: null,
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await ApiDataForDummyJson.getProducts(8);
+        const formattedProducts = data.products.map((product) => ({
+          id: product.id,
+          name: product.title,
+          price: `$${product.price.toFixed(2)}`,
+          originalPrice: product.discountPercentage 
+            ? `$${(product.price / (1 - product.discountPercentage / 100)).toFixed(2)}`
+            : null,
+          rating: product.rating,
+          reviews: product.reviews?.length || Math.floor(Math.random() * 10) + 1,
+          image: product.thumbnail,
+        }));
+        setProducts(formattedProducts);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const renderStars = (rating) => {
     return (
@@ -121,62 +76,76 @@ const HomeComponent4 = () => {
             
             {/* Placeholder for sidebar images */}
             <div className="mt-8 space-y-4">
-              <div className="w-full h-20 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-sm">
-                Image placeholder
-              </div>
-              <div className="w-full h-20 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-sm">
-                Image placeholder
-              </div>
-              <div className="w-full h-20 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-sm">
-                Image placeholder
-              </div>
+              {products.slice(0, 3).map((product) => (
+                <div key={product.id} className="w-full h-20 bg-gray-200 rounded flex items-center justify-center overflow-hidden">
+                  {product.image ? (
+                    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-gray-400 text-sm">Image</span>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
         {/* Products Grid */}
         <div className="flex-1">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition"
-              >
-                {/* Product Image Placeholder */}
-                <div className="w-full aspect-square bg-gray-100 flex items-center justify-center mb-4">
-                  <span className="text-gray-400 text-sm">Image</span>
-                </div>
-
-                {/* Product Info */}
-                <div className="p-4">
-                  {/* Product Name */}
-                  <h3 className="text-sm font-semibold text-black mb-2 line-clamp-2">
-                    {product.name}
-                  </h3>
-
-                  {/* Rating */}
-                  <div className="flex items-center gap-2 mb-3">
-                    {renderStars(product.rating)}
-                    <span className="text-xs text-gray-600">
-                      ({product.reviews})
-                    </span>
-                  </div>
-
-                  {/* Price */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-black">
-                      {product.price}
-                    </span>
-                    {product.originalPrice && (
-                      <span className="text-xs text-gray-500 line-through">
-                        {product.originalPrice}
-                      </span>
+          {loading ? (
+            <div className="text-center py-8">
+              <p className="text-gray-500">Loading products...</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {products.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition"
+                >
+                  {/* Product Image Placeholder */}
+                  <div className="w-full aspect-square bg-gray-100 flex items-center justify-center mb-4 overflow-hidden">
+                    {product.image ? (
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-gray-400 text-sm">Image</span>
                     )}
                   </div>
+
+                  {/* Product Info */}
+                  <div className="p-4">
+                    {/* Product Name */}
+                    <h3 className="text-sm font-semibold text-black mb-2 line-clamp-2">
+                      {product.name}
+                    </h3>
+
+                    {/* Rating */}
+                    <div className="flex items-center gap-2 mb-3">
+                      {renderStars(product.rating)}
+                      <span className="text-xs text-gray-600">
+                        ({product.reviews})
+                      </span>
+                    </div>
+
+                    {/* Price */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-black">
+                        {product.price}
+                      </span>
+                      {product.originalPrice && (
+                        <span className="text-xs text-gray-500 line-through">
+                          {product.originalPrice}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

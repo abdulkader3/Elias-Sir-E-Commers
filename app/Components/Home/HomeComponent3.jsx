@@ -1,118 +1,53 @@
-import React, { useState } from 'react'
+'use client'
+import React, { useState, useEffect } from 'react'
 import { FaStar } from 'react-icons/fa'
+import { ApiDataForDummyJson } from '../../Service/Api/dummyJsonApi'
 
 const HomeComponent3 = () => {
     const [activeTab, setActiveTab] = useState('NEW ARRIVALS')
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const tabs = ['NEW ARRIVALS', 'BEST SELLER', 'MOST POPULAR', 'FEATURED']
 
-    const products = [
-        {
-            id: 1,
-            name: 'Classic Hat',
-            price: '$53.00',
-            rating: 4,
-            reviews: 11,
-            image: null,
-            discount: null
-        },
-        {
-            id: 2,
-            name: "Women's White Handbag",
-            price: '$26.02',
-            rating: 5,
-            reviews: 13,
-            image: null,
-            discount: null
-        },
-        {
-            id: 3,
-            name: 'Multi Functional Apple iPhone',
-            price: '$136.26',
-            originalPrice: '$145.00',
-            rating: 5,
-            reviews: 5,
-            image: null,
-            discount: '7% OFF'
-        },
-        {
-            id: 4,
-            name: 'Fashion Blue Towel',
-            price: '$26.55 - $29.99',
-            rating: 5,
-            reviews: 18,
-            image: null,
-            discount: null
-        },
-        {
-            id: 5,
-            name: 'Apple Super Notecom',
-            price: '$243.30',
-            originalPrice: '$253.60',
-            rating: 5,
-            reviews: 8,
-            image: null,
-            discount: '4% OFF'
-        },
-        {
-            id: 6,
-            name: "Women's Comforter",
-            price: '$32.00 - $33.28',
-            rating: 5,
-            reviews: 18,
-            image: null,
-            discount: null
-        },
-        {
-            id: 7,
-            name: 'Multi-colorful Music',
-            price: '$260.99 - $287.83',
-            rating: 5,
-            reviews: 5,
-            image: null,
-            discount: null
-        },
-        {
-            id: 8,
-            name: 'Comfortable Backpack',
-            price: '$45.90',
-            rating: 5,
-            reviews: 6,
-            image: null,
-            discount: null
-        },
-        {
-            id: 9,
-            name: 'Data Transformer Tool',
-            price: '$64.47',
-            rating: 5,
-            reviews: 1,
-            image: null,
-            discount: null
-        },
-        {
-            id: 10,
-            name: "Women's hairlye",
-            price: '$173.84',
-            rating: 5,
-            reviews: 9,
-            image: null,
-            discount: null
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const data = await ApiDataForDummyJson.getProducts(10)
+                const formattedProducts = data.products.map((product) => ({
+                    id: product.id,
+                    name: product.title,
+                    price: `$${product.price.toFixed(2)}`,
+                    rating: Math.round(product.rating),
+                    reviews: product.reviews?.length || Math.floor(Math.random() * 20) + 1,
+                    image: product.thumbnail,
+                    discount: product.discountPercentage ? `${Math.round(product.discountPercentage)}% OFF` : null,
+                    originalPrice: product.discountPercentage 
+                        ? `$${(product.price / (1 - product.discountPercentage / 100)).toFixed(2)}`
+                        : null
+                }))
+                setProducts(formattedProducts)
+            } catch (error) {
+                console.error('Failed to fetch products:', error)
+            } finally {
+                setLoading(false)
+            }
         }
-    ]
+        fetchProducts()
+    }, [])
 
     const banners = [
         {
             id: 1,
-            title: 'Cosmetic Makeup Professional',
-            subtitle: 'NATURAL PROCESS',
-            image: null
+            title: 'Premium Collection',
+            subtitle: 'FEATURED',
+            image: products.length > 0 ? products[0]?.image : null
         },
         {
             id: 2,
-            title: "Women's Lifestyle Collection",
+            title: "Shop Best Sellers",
             subtitle: 'TRENDING NOW',
-            image: null
+            image: products.length > 1 ? products[1]?.image : null
         }
     ]
 
@@ -156,54 +91,60 @@ const HomeComponent3 = () => {
                 </div>
 
                 {/* Products Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-                    {products.map((product) => (
-                        <div key={product.id} className="flex flex-col items-center text-center">
-                            {/* Product Image Container */}
-                            <div className="w-full aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
-                                {product.image ? (
-                                    <img
-                                        src={product.image}
-                                        alt={product.name}
-                                        className="w-full h-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="text-gray-400 text-sm">Image</div>
-                                )}
+                {loading ? (
+                    <div className="text-center py-8">
+                        <p className="text-gray-500">Loading products...</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+                        {products.map((product) => (
+                            <div key={product.id} className="flex flex-col items-center text-center">
+                                {/* Product Image Container */}
+                                <div className="w-full aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+                                    {product.image ? (
+                                        <img
+                                            src={product.image}
+                                            alt={product.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="text-gray-400 text-sm">Image</div>
+                                    )}
 
-                                {/* Discount Badge */}
-                                {product.discount && (
-                                    <div className="absolute top-2 right-2 bg-orange-500 text-white px-2 py-1 text-xs font-bold rounded">
-                                        {product.discount}
-                                    </div>
-                                )}
+                                    {/* Discount Badge */}
+                                    {product.discount && (
+                                        <div className="absolute top-2 right-2 bg-orange-500 text-white px-2 py-1 text-xs font-bold rounded">
+                                            {product.discount}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Product Name */}
+                                <h3 className="text-gray-900 font-semibold text-sm mb-2 line-clamp-2">
+                                    {product.name}
+                                </h3>
+
+                                {/* Rating */}
+                                <div className="flex justify-center mb-2">
+                                    {renderStars(product.rating)}
+                                </div>
+
+                                {/* Reviews Count */}
+                                <p className="text-gray-600 text-xs mb-2">({product.reviews} reviews)</p>
+
+                                {/* Price */}
+                                <p className="text-gray-900 font-bold">
+                                    {product.price}
+                                    {product.originalPrice && (
+                                        <span className="text-gray-400 line-through ml-2 text-sm">
+                                            {product.originalPrice}
+                                        </span>
+                                    )}
+                                </p>
                             </div>
-
-                            {/* Product Name */}
-                            <h3 className="text-gray-900 font-semibold text-sm mb-2 line-clamp-2">
-                                {product.name}
-                            </h3>
-
-                            {/* Rating */}
-                            <div className="flex justify-center mb-2">
-                                {renderStars(product.rating)}
-                            </div>
-
-                            {/* Reviews Count */}
-                            <p className="text-gray-600 text-xs mb-2">({product.reviews} reviews)</p>
-
-                            {/* Price */}
-                            <p className="text-gray-900 font-bold">
-                                {product.price}
-                                {product.originalPrice && (
-                                    <span className="text-gray-400 line-through ml-2 text-sm">
-                                        {product.originalPrice}
-                                    </span>
-                                )}
-                            </p>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
 
                 {/* Banners */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
