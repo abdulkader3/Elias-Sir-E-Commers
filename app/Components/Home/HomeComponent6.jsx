@@ -21,18 +21,18 @@ const HomeComponent6 = () => {
   }, []);
 
   const clientLogos = [
-    { id: 1, name: 'Sterling' },
-    { id: 2, name: 'Neo' },
-    { id: 3, name: 'Galaxy' },
-    { id: 4, name: 'Skysuite' },
-    { id: 5, name: 'Red' },
-    { id: 6, name: 'Checkmark' },
-    { id: 7, name: 'Green Grass' },
-    { id: 8, name: 'Kinova' },
-    { id: 9, name: 'Sofia' },
-    { id: 10, name: 'Elegant Logo' },
-    { id: 11, name: 'Node' },
-    { id: 12, name: 'SkillStar' },
+    { id: 1, name: 'Sterling', logo: '/photos/1.png' },
+    { id: 2, name: 'Neo', logo: '/photos/2.png' },
+    { id: 3, name: 'Galaxy', logo: '/photos/3.png' },
+    { id: 4, name: 'Skysuite', logo: '/photos/4.png' },
+    { id: 5, name: 'Red', logo: '/photos/5.png' },
+    { id: 6, name: 'Checkmark', logo: '/photos/6.png' },
+    { id: 7, name: 'Green Grass', logo: '/photos/7.png' },
+    { id: 8, name: 'Kinova', logo: '/photos/8.png' },
+    { id: 9, name: 'Sofia', logo: '/photos/9.png' },
+    { id: 10, name: 'Elegant Logo', logo: '/photos/10.png' },
+    { id: 11, name: 'Node', logo: '/photos/11.png' },
+    { id: 12, name: 'SkillStar', logo: '/photos/12.png' },
   ];
 
   const blogPosts = products.slice(0, 4).map((product, index) => ({
@@ -63,7 +63,12 @@ const HomeComponent6 = () => {
               key={client.id}
               className="border border-gray-200 rounded-lg p-6 flex items-center justify-center min-h-24 bg-gray-50 hover:bg-gray-100 transition"
             >
-              <span className="text-gray-400 text-sm font-semibold">{client.name}</span>
+              <img 
+                src={client.logo} 
+                alt={client.name}
+                className="max-w-full max-h-full object-contain"
+                title={client.name}
+              />
             </div>
           ))}
         </div>

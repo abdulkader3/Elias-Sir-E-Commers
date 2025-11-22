@@ -13,6 +13,7 @@ import HomeComponent3 from '../../Components/Home/HomeComponent3.jsx'
 import HomeComponent4 from '../../Components/Home/HomeComponent4.jsx'
 import HomeComponent5 from '../../Components/Home/HomeComponent5.jsx'
 import HomeComponent6 from '../../Components/Home/HomeComponent6.jsx'
+import { ApiDataForDummyJson } from '../../Service/Api/dummyJsonApi.js';
 
 
 const page = () => {
@@ -48,6 +49,16 @@ const page = () => {
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
   }
+
+  const [ex , setEx] = useState([])
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const response = await ApiDataForDummyJson.getProducts();
+      setEx(response)
+    }
+    fetchProducts();
+  },[])
   
   return (
     <>
@@ -141,7 +152,7 @@ const page = () => {
       <HomeComponent2 />
       <HomeComponent3 />
       <HomeComponent4 />
-      <HomeComponent5 />
+      <HomeComponent5 ForImage={ex} />
       <HomeComponent6 />
     </div>
     </>

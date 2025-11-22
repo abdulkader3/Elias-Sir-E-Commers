@@ -62,6 +62,13 @@ body {
   background-size: cover;
 }
 
+.bg4{
+  background: url(../public/photos/bg4.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .Roller{
 clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
 
