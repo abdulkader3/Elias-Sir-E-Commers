@@ -7,9 +7,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FreeApiForAuth } from '../../Service/Api/Auth';
 
 const RegisterPage = () => {
-  const [firstName, setFirstName] = useState('');
+  const [username, setusername] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,14 +19,18 @@ const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [role, setRole] = useState("ADMIN");
+
+
+  const [userAllDataForSubmite , setData ] = useState([])
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
 
     // Validation
-    if (!firstName.trim()) {
-      newErrors.firstName = 'First name is required';
+    if (!username.trim()) {
+      newErrors.username = 'First name is required';
     }
 
     if (!lastName.trim()) {
@@ -61,13 +66,18 @@ const RegisterPage = () => {
     }
 
     // Here you would normally send registration request to backend
+    const auth = async ()=>{
+      await  FreeApiForAuth.register(userAllDataForSubmite)
+    }
+    auth()
     console.log('Registration with:', {
-      firstName,
-      lastName,
+      username,
       email,
       password,
+      role
     });
-    alert('Registration form submitted! (No API connected)');
+
+    setData(username,email,password,role)
     setErrors({});
   };
 
@@ -94,7 +104,7 @@ const RegisterPage = () => {
               {/* First Name */}
               <div>
                 <label
-                  htmlFor="firstName"
+                  htmlFor="username"
                   className="block text-sm font-semibold text-gray-900 mb-2"
                 >
                   First Name
@@ -105,22 +115,22 @@ const RegisterPage = () => {
                   </div>
                   <input
                     type="text"
-                    id="firstName"
-                    value={firstName}
+                    id="username"
+                    value={username}
                     onChange={(e) => {
-                      setFirstName(e.target.value);
-                      clearFieldError('firstName');
+                      setusername(e.target.value);
+                      clearFieldError('username');
                     }}
                     placeholder="John"
                     className={`w-full pl-12 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
-                      errors.firstName
+                      errors.username
                         ? 'border-red-500 focus:ring-red-200'
                         : 'border-gray-300 focus:ring-blue-200'
                     }`}
                   />
                 </div>
-                {errors.firstName && (
-                  <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
+                {errors.username && (
+                  <p className="text-red-500 text-sm mt-1">{errors.username}</p>
                 )}
               </div>
 
