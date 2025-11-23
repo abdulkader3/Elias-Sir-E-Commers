@@ -7,6 +7,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { FreeApiForAuth } from '../../Service/Api/Auth';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -37,14 +40,35 @@ const LoginPage = () => {
       return;
     }
 
-    // Here you would normally send login request to backend
-    console.log('Login attempt with:', { email, password, rememberMe });
-    alert('Login form submitted! (No API connected)');
-    setErrors({});
+    // Send login request to backend
+    const credentials = {
+      email: email,
+      password: password
+    };
+
+    const login = async () => {
+      try {
+        const response = await FreeApiForAuth.login(credentials);
+        console.log('Login successful:', response);
+        // Reset form after successful login
+        setEmail('');
+        setPassword('');
+        setRememberMe(false);
+        setErrors({});
+        toast.success('Login successful!');
+        // Optionally redirect to home page or dashboard
+        // router.push('/');
+      } catch (error) {
+        console.error('Login failed:', error);
+        toast.error(error.response?.data?.message || 'Login failed. Please try again.');
+      }
+    };
+    login();
   };
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4">
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="w-full max-w-md">
         <div className="bg-white rounded-lg shadow-lg p-8">
           {/* Header */}

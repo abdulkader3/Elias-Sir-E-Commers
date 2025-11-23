@@ -7,6 +7,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { FreeApiForAuth } from '../../Service/Api/Auth';
 
 const RegisterPage = () => {
@@ -56,7 +58,7 @@ const RegisterPage = () => {
     }
 
     if (!agreedToTerms) {
-      alert('You must agree to the Terms & Conditions');
+      toast.error('You must agree to the Terms & Conditions');
       return;
     }
 
@@ -65,20 +67,34 @@ const RegisterPage = () => {
       return;
     }
 
-    // Here you would normally send registration request to backend
-    const auth = async ()=>{
-      await  FreeApiForAuth.register(userAllDataForSubmite)
-    }
-    auth()
-    console.log('Registration with:', {
-      username,
-      email,
-      password,
-      role
-    });
+    // Send registration request to backend
+    const userData = {
+      username: username,
+      email: email,
+      password: password
+    };
 
-    setData(username,email,password,role)
-    setErrors({});
+    const auth = async () => {
+      try {
+        const response = await FreeApiForAuth.register(userData);
+        console.log('Registration successful:', response);
+        // Reset form after successful registration
+        setusername('');
+        setLastName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setAgreedToTerms(false);
+        setErrors({});
+        toast.success('Registration successful! Please log in.');
+        // Optionally redirect to login page
+        // router.push('/login');
+      } catch (error) {
+        console.error('Registration failed:', error);
+        toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
+      }
+    };
+    auth();
   };
 
   const clearFieldError = (field) => {
@@ -89,6 +105,7 @@ const RegisterPage = () => {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4">
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="w-full max-w-md">
         <div className="bg-white rounded-lg shadow-lg p-8">
           {/* Header */}
