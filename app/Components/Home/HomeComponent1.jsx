@@ -2,10 +2,13 @@
 import React, { useState, useEffect } from 'react'
 import { ApiDataForDummyJson } from '../../Service/Api/dummyJsonApi'
 import { FaMoneyBillWheat, FaTruckFast } from 'react-icons/fa6'
-import { FaShieldAlt } from 'react-icons/fa'
+import { FaShieldAlt, FaShoppingCart } from 'react-icons/fa'
 import { PiChatsBold } from 'react-icons/pi'
+import { useCart } from '../../context/CartContext.jsx'
+import { toast } from 'react-toastify'
 
 const HomeComponent1 = () => {
+    const { addToCart } = useCart()
     const [featuredProduct, setFeaturedProduct] = useState(null)
     const [bestSellers, setBestSellers] = useState([])
     const [loading, setLoading] = useState(true)
@@ -55,6 +58,25 @@ const HomeComponent1 = () => {
         return [...Array(5)].map((_, i) => (
             <span key={i} className={i < Math.round(rating) ? 'text-yellow-400' : 'text-gray-300'}>★</span>
         ))
+    }
+
+    const handleAddToCart = (product) => {
+        addToCart({
+            id: product.id,
+            title: product.name,
+            price: parseFloat(product.price.replace('$', '')),
+            thumbnail: product.image,
+            quantity: quantity,
+        })
+        toast.success(`${product.name} added to cart!`, {
+            position: 'bottom-right',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        })
+        setQuantity(1)
     }
 
     return (
@@ -235,8 +257,9 @@ const HomeComponent1 = () => {
                                                     <span className="w-10 text-center">{quantity}</span>
                                                     <button onClick={() => setQuantity(quantity + 1)} className="w-10 h-10 flex items-center justify-center text-gray-600">+</button>
                                                 </div>
-                                                <button className="flex-1 bg-orange-500 text-white py-3 rounded font-semibold hover:bg-orange-600">
-                                                    ADD TO CART
+                                                <button className="flex-1 bg-orange-500 text-white py-3 rounded font-semibold hover:bg-orange-600 flex items-center justify-center gap-2"
+                                                    onClick={() => handleAddToCart(featuredProduct)}>
+                                                    <FaShoppingCart /> ADD TO CART
                                                 </button>
                                             </div>
 

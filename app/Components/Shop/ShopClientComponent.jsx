@@ -10,8 +10,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '../../context/CartContext.jsx';
 import { FaStar, FaShoppingCart, FaTimes, FaBars } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
-const ShopClientComponent = ({
+const   ShopClientComponent = ({
   initialProducts,
   categories,
 }) => {
@@ -59,7 +60,14 @@ const ShopClientComponent = ({
       thumbnail: product.thumbnail,
       quantity: 1,
     });
-    alert(`${product.title} added to cart!`);
+    toast.success(`${product.title} added to cart!`, {
+      position: 'bottom-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   const maxPrice = Math.max(...initialProducts.map((p) => p.price));

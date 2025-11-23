@@ -1,9 +1,12 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { FaStar } from 'react-icons/fa';
+import { FaStar, FaShoppingCart } from 'react-icons/fa';
 import { ApiDataForDummyJson } from '../../Service/Api/dummyJsonApi';
+import { useCart } from '../../context/CartContext.jsx';
+import { toast } from 'react-toastify';
 
 const HomeComponent4 = () => {
+  const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +49,24 @@ const HomeComponent4 = () => {
         </div>
       </div>
     );
+  };
+
+  const handleAddToCart = (product) => {
+    addToCart({
+      id: product.id,
+      title: product.name,
+      price: parseFloat(product.price.replace('$', '')),
+      thumbnail: product.image,
+      quantity: 1,
+    });
+    toast.success(`${product.name} added to cart!`, {
+      position: 'bottom-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   return (
@@ -100,19 +121,29 @@ const HomeComponent4 = () => {
               {products.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition"
+                  className="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition group"
                 >
                   {/* Product Image Placeholder */}
-                  <div className="w-full aspect-square bg-gray-100 flex items-center justify-center mb-4 overflow-hidden">
+                  <div className="w-full aspect-square bg-gray-100 flex items-center justify-center mb-4 overflow-hidden relative">
                     {product.image ? (
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                       />
                     ) : (
                       <span className="text-gray-400 text-sm">Image</span>
                     )}
+                    {/* Add to Cart Button Overlay */}
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                    >
+                      <div className="flex flex-col items-center gap-2">
+                        <FaShoppingCart className="text-white text-2xl" />
+                        <span className="text-white text-sm font-semibold">Add to Cart</span>
+                      </div>
+                    </button>
                   </div>
 
                   {/* Product Info */}
